@@ -3,29 +3,22 @@ module.exports = {
   extends: ['@commitlint/config-conventional'],
   // 定义规则类型
   rules: {
-    // type 类型定义，表示 git 提交的 type 必须在以下类型范围内
-    'type-enum': [
-      2,
-      'always',
-      [
-        'feat', // 新功能 feature
-        'fix', // 修复 bug
-        'docs', // 文档注释
-        'style', // 代码格式(不影响代码运行的变动)
-        'refactor', // 重构(既不增加新功能，也不是修复bug)
-        'perf', // 性能优化
-        'test', // 增加测试
-        'chore', // 构建过程或辅助工具的变动
-        'revert', // 回退
-        'build' // 打包
-      ]
-    ],
-    // subject 大小写不做校验
+    // type 的输入格式，默认为只能小写，现在配置也可以大写
+    'type-case': [2, 'always', ['lower-case', 'upper-case']],
+    // 自定义 type 类型列表，表示 git 提交的 type 必须在以下类型范围内，默认值：['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'revert']
+    'type-enum': [2, 'always', ['feat', 'fix', 'docs', 'style', 'refactor', 'pref', 'test', 'build', 'ci', 'revert', 'chore']],
+    // subject 也就是提交的信息，大小写不做校验
     'subject-case': [0]
   },
-  // 文档：https://cz-git.qbb.sh/zh/config/
+  // cz-git 配置文档：https://cz-git.qbb.sh/zh/config/
   prompt: {
-    alias: { fd: 'docs: fix typos' },
+    alias: {
+      f: 'docs: fix typos',
+      r: 'docs: update README',
+      s: 'style: update code format',
+      b: 'build: bump dependencies',
+      c: 'chore: update config'
+    },
     messages: {
       type: '选择你要提交的类型 :',
       scope: '选择一个提交范围（可选）:',
@@ -39,19 +32,19 @@ module.exports = {
       confirmCommit: '是否提交或修改commit ?'
     },
     types: [
-      { value: 'feat', name: 'feat:     新增功能 | A new feature' },
-      { value: 'fix', name: 'fix:      修复缺陷 | A bug fix' },
-      { value: 'docs', name: 'docs:     文档更新 | Documentation only changes' },
-      { value: 'style', name: 'style:    代码格式 | Changes that do not affect the meaning of the code' },
-      { value: 'refactor', name: 'refactor: 代码重构 | A code change that neither fixes a bug nor adds a feature' },
-      { value: 'perf', name: 'perf:     性能提升 | A code change that improves performance' },
-      { value: 'test', name: 'test:     测试相关 | Adding missing tests or correcting existing tests' },
-      { value: 'build', name: 'build:    构建相关 | Changes that affect the build system or external dependencies' },
-      { value: 'ci', name: 'ci:       持续集成 | Changes to our CI configuration files and scripts' },
-      { value: 'revert', name: 'revert:   回退代码 | Revert to a commit' },
-      { value: 'chore', name: 'chore:    其他修改 | Other changes that do not modify src or test files' }
+      { value: 'feat', name: 'feat:     ✨新增功能 | A new feature', emoji: ':sparkles:' },
+      { value: 'fix', name: 'fix:      🐛修复缺陷 | A bug fix', emoji: ':bug:' },
+      { value: 'docs', name: 'docs:     📝文档更新 | Documentation only changes', emoji: ':memo:' },
+      { value: 'style', name: 'style:    💄代码格式 | Changes that do not affect the meaning of the code', emoji: ':lipstick:' },
+      { value: 'refactor', name: 'refactor: ♻️代码重构 | A code change that neither fixes a bug nor adds a feature', emoji: ':recycle:' },
+      { value: 'perf', name: 'perf:     ⚡️性能提升 | A code change that improves performance', emoji: ':zap:' },
+      { value: 'test', name: 'test:     ✅测试相关 | Adding missing tests or correcting existing tests', emoji: ':white_check_mark:' },
+      { value: 'build', name: 'build:    📦️构建相关 | Changes that affect the build system or external dependencies', emoji: ':package:' },
+      { value: 'ci', name: 'ci:       🎡持续集成 | Changes to our CI configuration files and scripts', emoji: ':ferris_wheel:' },
+      { value: 'revert', name: 'revert:   🔨回退代码 | Revert to a commit', emoji: ':hammer:' },
+      { value: 'chore', name: 'chore:    ⏪️其他修改 | Other changes that do not modify src or test files', emoji: ':rewind:' }
     ],
-    useEmoji: false,
+    useEmoji: true,
     emojiAlign: 'center',
     useAI: false,
     aiNumber: 1,
